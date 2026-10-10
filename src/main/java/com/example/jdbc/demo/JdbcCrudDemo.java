@@ -7,14 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-/**
- * 纯 JDBC 增删改查示例（不使用 JDBCTool）：
- * 演示 JDBC 编程的固定套路 ——
- * 1) 加载驱动并获取 Connection；
- * 2) 用 Statement / PreparedStatement 执行 SQL；
- * 3) 用 ResultSet 遍历查询结果；
- * 4) 关闭资源。
- */
+/** 纯 JDBC 增删改查示例。 */
 public class JdbcCrudDemo {
 
     public static void main(String[] args) throws Exception {
@@ -22,7 +15,7 @@ public class JdbcCrudDemo {
 
             System.out.println("========== 纯 JDBC 增删改查示例（student 表） ==========");
 
-            // 1. 增：PreparedStatement 占位符防止 SQL 注入
+            // 增
             String insertSql = "INSERT INTO student(name, major, age, enroll_date, graduated, tuition) VALUES (?, ?, ?, ?, ?, ?)";
             try (PreparedStatement ps = connection.prepareStatement(insertSql)) {
                 ps.setString(1, "赵六");
@@ -35,7 +28,7 @@ public class JdbcCrudDemo {
                 System.out.println("[增] INSERT 影响行数=" + rows);
             }
 
-            // 2. 查：Statement + ResultSet 遍历
+            // 查
             System.out.println("[查] SELECT * FROM student：");
             try (Statement st = connection.createStatement();
                  ResultSet rs = st.executeQuery("SELECT * FROM student")) {
@@ -51,7 +44,7 @@ public class JdbcCrudDemo {
                 }
             }
 
-            // 3. 改
+            // 改
             String updateSql = "UPDATE student SET major = ? WHERE name = ?";
             try (PreparedStatement ps = connection.prepareStatement(updateSql)) {
                 ps.setString(1, "网络空间安全");
@@ -59,7 +52,7 @@ public class JdbcCrudDemo {
                 System.out.println("[改] UPDATE 影响行数=" + ps.executeUpdate());
             }
 
-            // 4. 删
+            // 删
             String deleteSql = "DELETE FROM student WHERE name = ?";
             try (PreparedStatement ps = connection.prepareStatement(deleteSql)) {
                 ps.setString(1, "赵六");

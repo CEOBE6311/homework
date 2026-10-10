@@ -18,10 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * JDBCTool 单元测试：验证五个方法（save / update / delete / getOneById / resultSetToList）。
- * 运行前提：本机 MySQL 已创建 datetest 库及 student、college 表（见 schema.sql）。
- */
+/** JDBCTool 单元测试。 */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class JDBCToolTest {
 
@@ -38,7 +35,7 @@ class JDBCToolTest {
             assertNotNull(found, "getOneById 应能查到刚保存的对象");
             assertEquals("测试学院", found.getName());
             assertEquals("T001", found.getCode());
-            JDBCTool.delete(found, connection); // 清理测试数据
+            JDBCTool.delete(found, connection);
         }
     }
 

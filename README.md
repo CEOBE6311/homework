@@ -67,9 +67,7 @@ untitled5
 
 前置条件：本机 MySQL 8.x 已启动，root 密码与 `db.properties` 一致（本作业为 [removed]）。
 
-1. 建库建表（二选一）：
-   - 命令行：`mysql -u root -p < src/main/resources/schema.sql`
-   - 或直接运行演示（演示启动时会自动执行 DDL，表不存在则创建）
+1. 建库建表（先执行一次）：`mysql -u root -p < src/main/resources/schema.sql`
 2. Maven 编译：`mvn clean compile`
 3. 运行两表增删改查演示：
    `mvn compile exec:java -Dexec.mainClass="com.example.jdbc.demo.JDBCToolDemo"`
@@ -85,33 +83,30 @@ untitled5
 **JDBCToolDemo（两表完整增删改查）实际运行输出：**
 
 ```
-========== 步骤1：JDBC 建立数据表（DDL） ==========
-student、college 两张表已就绪（存在则跳过）。
-
-========== 步骤2：学生表 新增 3 条记录（JDBCTool.save） ==========
+========== 步骤1：学生表 新增 3 条记录（JDBCTool.save） ==========
 save 影响行数=1，保存对象（主键已回填）：Student{id=1, name='张三', major='计算机科学与技术', age=20, enrollDate=2023-09-01, graduated=false, tuition=5800.00}
 save 影响行数=1，保存对象（主键已回填）：Student{id=2, name='李四', major='软件工程', age=21, enrollDate=2022-09-01, graduated=true, tuition=6200.50}
 save 影响行数=1，保存对象（主键已回填）：Student{id=3, name='王五', major='人工智能', age=19, enrollDate=2024-09-01, graduated=false, tuition=6600.00}
 
-========== 步骤3：学生表 查询全部（JDBCTool.resultSetToList） ==========
+========== 步骤2：学生表 查询全部（JDBCTool.resultSetToList） ==========
 Student{id=1, name='张三', major='计算机科学与技术', age=20, enrollDate=2023-09-01, graduated=false, tuition=5800.00}
 Student{id=2, name='李四', major='软件工程', age=21, enrollDate=2022-09-01, graduated=true, tuition=6200.50}
 Student{id=3, name='王五', major='人工智能', age=19, enrollDate=2024-09-01, graduated=false, tuition=6600.00}
 
-========== 步骤4：学生表 按ID查询（JDBCTool.getOneById, id=2） ==========
+========== 步骤3：学生表 按ID查询（JDBCTool.getOneById, id=2） ==========
 查询结果：Student{id=2, name='李四', major='软件工程', age=21, enrollDate=2022-09-01, graduated=true, tuition=6200.50}
 
-========== 步骤5：学生表 修改（JDBCTool.update） ==========
+========== 步骤4：学生表 修改（JDBCTool.update） ==========
 update 影响行数=1，更新后对象：Student{id=2, name='李四', major='数据科学与大数据技术', age=21, enrollDate=2022-09-01, graduated=true, tuition=6888.88}
 再次按ID查询验证：Student{id=2, name='李四', major='数据科学与大数据技术', age=21, enrollDate=2022-09-01, graduated=true, tuition=6888.88}
 
-========== 步骤6：学生表 删除（JDBCTool.delete, id=3） ==========
+========== 步骤5：学生表 删除（JDBCTool.delete, id=3） ==========
 delete 影响行数=1，删除对象：Student{id=3, name='王五', major='人工智能', age=19, enrollDate=2024-09-01, graduated=false, tuition=6600.00}
 删除后剩余记录：
 Student{id=1, name='张三', major='计算机科学与技术', age=20, enrollDate=2023-09-01, graduated=false, tuition=5800.00}
 Student{id=2, name='李四', major='数据科学与大数据技术', age=21, enrollDate=2022-09-01, graduated=true, tuition=6888.88}
 
-========== 步骤7：学院表 完整增删改查（JDBCTool 五方法） ==========
+========== 步骤6：学院表 完整增删改查（JDBCTool 五方法） ==========
 save 影响行数=1，保存对象（主键已回填）：College{id=1, name='计算机学院', code='CS01'}
 save 影响行数=1，保存对象（主键已回填）：College{id=2, name='软件学院', code='SE02'}
 save 影响行数=1，保存对象（主键已回填）：College{id=3, name='人工智能学院', code='AI03'}
@@ -140,7 +135,7 @@ College{id=2, name='网络空间安全学院', code='CS-CYBER'}
 [查] SELECT * FROM student：
   id=1, name=张三, major=计算机科学与技术, age=20, enroll_date=2023-09-01, graduated=false, tuition=5800.00
   id=2, name=李四, major=数据科学与大数据技术, age=21, enroll_date=2022-09-01, graduated=true, tuition=6888.88
-  id=4, name=赵六, major=信息安全, age=22, enroll_date=2021-09-01, graduated=true, tuition=5500.00
+  id=7, name=赵六, major=信息安全, age=22, enroll_date=2021-09-01, graduated=true, tuition=5500.00
 [改] UPDATE 影响行数=1
 [删] DELETE 影响行数=1
 ========== 纯 JDBC 增删改查演示结束 ==========

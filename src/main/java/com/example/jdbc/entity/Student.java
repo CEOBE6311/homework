@@ -7,12 +7,7 @@ import com.example.jdbc.annotation.Table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-/**
- * 学生实体类，对应 student 表：
- * Id（学号）、name（姓名）、major（专业）、age（年龄）、
- * enrollDate（入学时间）、graduated（是否毕业）、tuition（学费）。
- * 类属性与表字段的对应关系用注解描述，这就是 ORM 的对象-关系映射。
- */
+/** 学生实体类，对应 student 表。 */
 @Table("student")
 public class Student {
 
