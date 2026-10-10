@@ -7,7 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-/** 纯 JDBC 增删改查示例。 */
 public class JdbcCrudDemo {
 
     public static void main(String[] args) throws Exception {

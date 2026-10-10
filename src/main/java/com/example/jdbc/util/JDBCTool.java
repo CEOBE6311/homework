@@ -24,14 +24,12 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-/** JDBCTool：基于 Java 反射和 JDBC 实现的轻量 ORM 工具类。 */
 public final class JDBCTool {
 
     private JDBCTool() {
     }
 
-    /** 从 classpath 下的 db.properties 读取配置并创建数据库连接。 */
-    public static Connection getConnection() throws SQLException {
+   public static Connection getConnection() throws SQLException {
         Properties props = new Properties();
         try (InputStream in = JDBCTool.class.getClassLoader().getResourceAsStream("db.properties")) {
             if (in == null) {
@@ -51,20 +49,6 @@ public final class JDBCTool {
                 props.getProperty("jdbc.username"),
                 props.getProperty("jdbc.password"));
     }
-
-    /** 关闭 JDBC 资源。 */
-    public static void close(AutoCloseable... resources) {
-        for (AutoCloseable resource : resources) {
-            if (resource != null) {
-                try {
-                    resource.close();
-                } catch (Exception ignored) {
-                }
-            }
-        }
-    }
-
-    /** 把 ResultSet 中的记录转换成 clazz 类型的对象列表。 */
     public static <T> List<T> resultSetToList(ResultSet rs, Class<T> clazz) throws Exception {
         List<T> list = new ArrayList<>();
         List<Field> fields = columnFields(clazz);
@@ -80,7 +64,6 @@ public final class JDBCTool {
         return list;
     }
 
-    /** 保存对象，自增主键回填到对象上。 */
     public static <T> int save(T obj, Connection connection) throws Exception {
         Class<?> clazz = obj.getClass();
         String table = tableName(clazz);
@@ -121,7 +104,6 @@ public final class JDBCTool {
         }
     }
 
-    /** 按主键更新对象。 */
     public static <T> int update(T obj, Connection connection) throws Exception {
         Class<?> clazz = obj.getClass();
         String table = tableName(clazz);
@@ -150,7 +132,6 @@ public final class JDBCTool {
         }
     }
 
-    /** 按主键删除对象。 */
     public static <T> int delete(T obj, Connection connection) throws Exception {
         Class<?> clazz = obj.getClass();
         Field idField = idField(clazz);
@@ -166,7 +147,6 @@ public final class JDBCTool {
         }
     }
 
-    /** 按主键查询一个对象，查不到返回 null。 */
     public static <T> T getOneById(String id, Class<T> clazz, Connection connection) throws Exception {
         Field idField = idField(clazz);
         String sql = "SELECT * FROM " + tableName(clazz) + " WHERE " + columnName(idField) + " = ?";
@@ -179,13 +159,11 @@ public final class JDBCTool {
         }
     }
 
-    /** 取表名。 */
     private static String tableName(Class<?> clazz) {
         Table table = clazz.getAnnotation(Table.class);
         return table != null ? table.value() : toSnakeCase(clazz.getSimpleName());
     }
 
-    /** 取字段名。 */
     private static String columnName(Field field) {
         Column column = field.getAnnotation(Column.class);
         if (column != null && !column.value().isEmpty()) {
@@ -194,7 +172,6 @@ public final class JDBCTool {
         return toSnakeCase(field.getName());
     }
 
-    /** 取实体类中参与映射的字段。 */
     private static List<Field> columnFields(Class<?> clazz) {
         List<Field> fields = new ArrayList<>();
         for (Field field : clazz.getDeclaredFields()) {
@@ -207,7 +184,6 @@ public final class JDBCTool {
         return fields;
     }
 
-    /** 取主键字段。 */
     private static Field idField(Class<?> clazz) {
         for (Field field : clazz.getDeclaredFields()) {
             if (field.isAnnotationPresent(Id.class) || field.getName().equalsIgnoreCase("id")) {
@@ -221,7 +197,6 @@ public final class JDBCTool {
         return field.isAnnotationPresent(Id.class) || field.getName().equalsIgnoreCase("id");
     }
 
-    /** 驼峰转下划线。 */
     private static String toSnakeCase(String camel) {
         StringBuilder sb = new StringBuilder();
         for (char c : camel.toCharArray()) {
@@ -234,7 +209,6 @@ public final class JDBCTool {
         return sb.toString();
     }
 
-    /** 绑定参数。 */
     private static void bind(PreparedStatement ps, List<Field> fields, Object obj, int startIndex) throws Exception {
         int index = startIndex;
         for (Field field : fields) {
@@ -243,7 +217,6 @@ public final class JDBCTool {
         }
     }
 
-    /** 按属性类型绑定参数值。 */
     private static void bindValue(PreparedStatement ps, int index, Class<?> type, Object value) throws SQLException {
         if (value == null) {
             ps.setObject(index, null);
@@ -272,7 +245,6 @@ public final class JDBCTool {
         }
     }
 
-    /** 取字段值并转换成属性类型。 */
     private static Object readColumnValue(ResultSet rs, String column, Class<?> type) throws SQLException {
         Object raw = rs.getObject(column);
         if (raw == null) {
@@ -335,7 +307,6 @@ public final class JDBCTool {
         return raw;
     }
 
-    /** 主键字符串转主键类型。 */
     private static Object convert(String value, Class<?> type) {
         if (type == int.class || type == Integer.class) {
             return Integer.valueOf(value);
@@ -346,7 +317,6 @@ public final class JDBCTool {
         return value;
     }
 
-    /** 数据库生成的主键值转主键类型。 */
     private static Object convertToId(Object key, Class<?> type) {
         if (key == null) {
             return null;

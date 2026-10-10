@@ -11,7 +11,6 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.List;
 
-/** JDBCTool 增删改查演示：student、college 两张表。 */
 public class JDBCToolDemo {
 
     public static void main(String[] args) throws Exception {

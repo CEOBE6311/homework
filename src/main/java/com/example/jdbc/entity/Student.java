@@ -11,32 +11,25 @@ import java.time.LocalDate;
 @Table("student")
 public class Student {
 
-    /** 学号（主键，自增） */
     @Id
     @Column("id")
     private Integer id;
 
-    /** 姓名 */
     @Column("name")
     private String name;
 
-    /** 专业 */
     @Column("major")
     private String major;
 
-    /** 年龄 */
     @Column("age")
     private Integer age;
 
-    /** 入学时间 */
     @Column("enroll_date")
     private LocalDate enrollDate;
 
-    /** 是否毕业（true 毕业 / false 未毕业） */
     @Column("graduated")
     private Boolean graduated;
 
-    /** 学费 */
     @Column("tuition")
     private BigDecimal tuition;
 
