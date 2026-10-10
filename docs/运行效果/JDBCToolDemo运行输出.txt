@@ -1,11 +1,4 @@
-﻿mvn.cmd : Picked up JAVA_TOOL_OPTIONS: -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.stderr.encoding=UTF-8
-所在位置 行:1 字符: 349
-+ ... ew($false); & 'H:\IntelliJ IDEA 2025.2.1\plugins\maven\lib\maven3\bin ...
-+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    + CategoryInfo          : NotSpecified: (Picked up JAVA_....encoding=UTF-8:String) [], RemoteException
-    + FullyQualifiedErrorId : NativeCommandError
- 
-
+﻿
 ========== 步骤1：学生表 新增 3 条记录（JDBCTool.save） ==========
 save 影响行数=1，保存对象（主键已回填）：Student{id=1, name='张三', major='计算机科学与技术', age=20, enrollDate=2023-09-01, graduated=false, tuition=5800.00}
 save 影响行数=1，保存对象（主键已回填）：Student{id=2, name='李四', major='软件工程', age=21, enrollDate=2022-09-01, graduated=true, tuition=6200.50}

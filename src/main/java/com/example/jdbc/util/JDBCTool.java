@@ -4,8 +4,6 @@ import com.example.jdbc.annotation.Column;
 import com.example.jdbc.annotation.Id;
 import com.example.jdbc.annotation.Table;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
@@ -21,7 +19,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Properties;
 import java.util.stream.Collectors;
 
 public final class JDBCTool {
@@ -29,25 +26,26 @@ public final class JDBCTool {
     private JDBCTool() {
     }
 
-   public static Connection getConnection() throws SQLException {
-        Properties props = new Properties();
-        try (InputStream in = JDBCTool.class.getClassLoader().getResourceAsStream("db.properties")) {
-            if (in == null) {
-                throw new SQLException("未找到配置文件 db.properties");
-            }
-            props.load(in);
-        } catch (IOException e) {
-            throw new SQLException("读取数据库配置文件失败", e);
-        }
+    /** 数据库驱动类名。 */
+    private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
+
+    /** 数据库连接地址。 */
+    private static final String URL = "jdbc:mysql://localhost:3306/datetest?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8&allowPublicKeyRetrieval=true";
+
+    /** 数据库用户名。 */
+    private static final String USERNAME = "root";
+
+    /** 数据库密码（运行前改成你自己的密码）。 */
+    private static final String PASSWORD = "你的密码";
+
+    /** 获取数据库连接。 */
+    public static Connection getConnection() throws SQLException {
         try {
-            Class.forName(props.getProperty("jdbc.driver"));
+            Class.forName(DRIVER);
         } catch (ClassNotFoundException e) {
-            throw new SQLException("加载数据库驱动失败: " + props.getProperty("jdbc.driver"), e);
+            throw new SQLException("加载数据库驱动失败: " + DRIVER, e);
         }
-        return DriverManager.getConnection(
-                props.getProperty("jdbc.url"),
-                props.getProperty("jdbc.username"),
-                props.getProperty("jdbc.password"));
+        return DriverManager.getConnection(URL, USERNAME, PASSWORD);
     }
     public static <T> List<T> resultSetToList(ResultSet rs, Class<T> clazz) throws Exception {
         List<T> list = new ArrayList<>();
