@@ -1,0 +1,29 @@
+﻿===== 1. 数据库列表 =====
+Database
+bridge_inspection_db
+datetest
+information_schema
+library
+mysql
+performance_schema
+sakila
+sales_db
+school_exam_system
+sys
+world
+架构_name
+
+===== 2. datetest 库中的表 =====
+Tables_in_datetest
+college
+student
+
+===== 3. student 学生表（最终数据） =====
+id	name	major	age	enroll_date	graduated	tuition
+1	张三	计算机科学与技术	20	2023-09-01	0	5800.00
+2	李四	数据科学与大数据技术	21	2022-09-01	1	6888.88
+
+===== 4. college 学院表（最终数据） =====
+id	name	code
+1	计算机学院	CS01
+2	网络空间安全学院	CS-CYBER
